@@ -1,6 +1,7 @@
 *.iml
 /local.properties
 /.idea
+/target
 .DS_Store
 /build
 /captures
