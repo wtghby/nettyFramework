@@ -7,6 +7,7 @@ import io.netty.channel.Channel;
  */
 public class Message {
     private short code;// 储存命令码
+    private String uid;//用户id
     private byte[] data;// 存放实际数据,用于protobuf解码成对应message
     private Channel channel;// 当前玩家的channel
 
@@ -16,6 +17,14 @@ public class Message {
 
     public void setCode(short code) {
         this.code = code;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public byte[] getData() {

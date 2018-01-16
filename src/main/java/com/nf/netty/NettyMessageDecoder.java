@@ -1,11 +1,15 @@
 package com.nf.netty;
 
+import com.google.protobuf.ByteString;
 import com.nf.entity.Message;
+import com.nf.proto.DataProto;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
+import io.netty.util.CharsetUtil;
 
 import java.nio.ByteOrder;
+import java.nio.charset.Charset;
 
 /**
  * 定长解码器
@@ -26,7 +30,7 @@ public class NettyMessageDecoder extends LengthFieldBasedFrameDecoder {
     }
 
     public NettyMessageDecoder() {
-        this(ByteOrder.BIG_ENDIAN, 100000, 0, 4, 2, 4, true);
+        this(ByteOrder.BIG_ENDIAN, 1000000, 0, 4, 2, 4, true);
     }
 
     /**
@@ -35,19 +39,24 @@ public class NettyMessageDecoder extends LengthFieldBasedFrameDecoder {
     @Override
     protected Object decode(ChannelHandlerContext ctx, ByteBuf byteBuf) throws Exception {
 
+        DataProto.Data.Builder db = DataProto.Data.newBuilder();
         ByteBuf frame = (ByteBuf) super.decode(ctx, byteBuf);
         if (frame == null) {
+            System.out.println("frame = null");
             return null;
         }
 
         short cmd = frame.readShort();// 先读取两个字节命令码
-
-        byte[] data = new byte[frame.readableBytes()];// 其它数据为实际数据
+        CharSequence uid = frame.readCharSequence(frame.readInt(), CharsetUtil.UTF_8);
+        int dataLength = frame.readInt();
+        byte[] data = new byte[dataLength];// 其它数据为实际数据
         frame.readBytes(data);
 
         Message message = new Message();
         message.setCode(cmd);
+        message.setUid(uid.toString());
         message.setData(data);
+        System.out.println("code = " + cmd + " uid = " + uid);
         return message;
     }
 

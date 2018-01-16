@@ -1,41 +1,35 @@
 package com.nf.client;
 
+import com.google.protobuf.ByteString;
 import com.nf.entity.Message;
+import com.nf.proto.DataProto;
 import com.nf.proto.MessageProto;
+import com.nf.util.ProtoUtil;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
 @Sharable
-public class ClientHanlder extends SimpleChannelInboundHandler<Message> {
+public class ClientHandler extends SimpleChannelInboundHandler<DataProto.Data> {
 
-    protected void channelRead0(ChannelHandlerContext channelHandlerContext, Message message) throws Exception {
-        if (message == null) {
+    protected void channelRead0(ChannelHandlerContext channelHandlerContext, DataProto.Data data) {
+        if (data == null) {
             return;
         }
-        message.setChannel(channelHandlerContext.channel());
-
-        // int playerid = ServerCache.get(ctx.channel());
-
-        int csCommondCode = message.getCode();
-//        if (csCommondCode < 100) {// 100以内暂时不用
-//
-//        } else if (csCommondCode >= 100 && csCommondCode < 200) { // 100-200用于注册
-//            LoginQueue.getInstance().put(msg);
-//
-//        } else {// 消息可能较多,可以分几个队列,这里先放一个
-//            CommonQueue.getInstance().put(msg);
-//        }
+//        message.setChannel(channelHandlerContext.channel());
     }
 
     @Override
-    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+    public void channelActive(ChannelHandlerContext ctx) {
+
+        DataProto.Data.Builder dataBuilder = DataProto.Data.newBuilder();
+        dataBuilder.setCode(1);
+        dataBuilder.setUid("ox111-110");
 
         MessageProto.Book.Builder bb = MessageProto.Book.newBuilder();
         bb.setId(11);
         bb.setName("netty从入门到放弃");
         bb.setPrice(222);
-
 
 
         MessageProto.Person.Builder builder = MessageProto.Person.newBuilder();
@@ -49,12 +43,14 @@ public class ClientHanlder extends SimpleChannelInboundHandler<Message> {
 
         MessageProto.Book book = bb.build();
 
+        dataBuilder.setData(ProtoUtil.bytes2String(book.toByteArray()));
 
         Message message = new Message();
         message.setCode((short) 2);
+        message.setUid("xxxxaaaaa");
         message.setData(book.toByteArray());
 
 
-        ctx.writeAndFlush(message);
+        ctx.writeAndFlush(dataBuilder.build());
     }
 }
