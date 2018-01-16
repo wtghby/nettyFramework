@@ -1,14 +1,16 @@
 package com.nf.test;
 
 
-import com.nf.server.MServer;
+import com.nf.server.Bootstrap;
+import com.nf.server.ServerInit;
 
 /**
  * Created by Administrator on 2018/1/12 0012.
  */
 public class Server {
     public static void main(String[] args) throws InterruptedException {
-        MServer server = new MServer(9999);
+        ServerInit.getInstance().init();
+        Bootstrap server = new Bootstrap(9999);
         server.run();
     }
 }

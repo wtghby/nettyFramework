@@ -16,7 +16,6 @@ public class ClientHandler extends SimpleChannelInboundHandler<DataProto.Data> {
         if (data == null) {
             return;
         }
-//        message.setChannel(channelHandlerContext.channel());
     }
 
     @Override
@@ -44,12 +43,6 @@ public class ClientHandler extends SimpleChannelInboundHandler<DataProto.Data> {
         MessageProto.Book book = bb.build();
 
         dataBuilder.setData(ProtoUtil.bytes2String(book.toByteArray()));
-
-        Message message = new Message();
-        message.setCode((short) 2);
-        message.setUid("xxxxaaaaa");
-        message.setData(book.toByteArray());
-
 
         ctx.writeAndFlush(dataBuilder.build());
     }

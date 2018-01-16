@@ -1,45 +1,30 @@
 package com.nf.entity;
 
-import io.netty.channel.Channel;
+import com.nf.proto.DataProto;
+import com.nf.server.Connection;
 
 /**
  * 后台处理逻辑的核心实体类
  */
 public class Message {
-    private short code;// 储存命令码
-    private String uid;//用户id
-    private byte[] data;// 存放实际数据,用于protobuf解码成对应message
-    private Channel channel;// 当前玩家的channel
 
-    public short getCode() {
-        return code;
+    private DataProto.Data data;
+    private Connection connection;
+
+    public Connection getConnection() {
+        return connection;
     }
 
-    public void setCode(short code) {
-        this.code = code;
+    public void setConnection(Connection connection) {
+        this.connection = connection;
     }
 
-    public String getUid() {
-        return uid;
-    }
 
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
-
-    public byte[] getData() {
+    public DataProto.Data getData() {
         return data;
     }
 
-    public void setData(byte[] data) {
+    public void setData(DataProto.Data data) {
         this.data = data;
-    }
-
-    public Channel getChannel() {
-        return channel;
-    }
-
-    public void setChannel(Channel channel) {
-        this.channel = channel;
     }
 }

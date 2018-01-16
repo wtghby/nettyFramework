@@ -11,8 +11,8 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 /**
  * Created by Administrator on 2018/1/12 0012.
  */
-public class MServer {
-    public MServer(int port) {
+public class Bootstrap {
+    public Bootstrap(int port) {
         this.port = port;
     }
 
