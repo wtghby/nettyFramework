@@ -2,8 +2,9 @@ package com.nf.server;
 
 import com.nf.constant.Config;
 import com.nf.entity.Message;
-import com.nf.service.IService;
-import com.nf.service.ServiceManager;
+import com.nf.service.core.IService;
+import com.nf.service.core.ServiceManager;
+import org.apache.log4j.Logger;
 
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -13,6 +14,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 public class HandlerDispatcher implements Runnable {
 
+    private Logger logger = Logger.getLogger(HandlerDispatcher.class);
     private static HandlerDispatcher instance;
     /**
      * 线程运行标志
@@ -63,7 +65,7 @@ public class HandlerDispatcher implements Runnable {
             synchronized (messagesQueue) {
                 if (isDone()) {
                     try {
-                        System.out.println("messagesQueue empty");
+                        logger.info("message queue empty,wait!");
                         messagesQueue.wait();
                     } catch (InterruptedException e) {
                         if (!isRunning) {
@@ -79,7 +81,7 @@ public class HandlerDispatcher implements Runnable {
                 if (code < 0)
                     return;
                 IService service = null;
-
+                logger.info("message code = " + code + " uid = " + messages.getData().getUid());
                 if (code < Config.MODULE_E_1) {
                     service = ServiceManager.getInstance().getService(Config.KEY_M1);
                 } else if (code < Config.MODULE_E_2) {

@@ -1,7 +1,6 @@
-package com.nf.service;
+package com.nf.service.core;
 
 import com.nf.entity.Message;
-import com.nf.proto.DataProto;
 
 public interface IService extends Runnable {
 

@@ -1,6 +1,6 @@
 package com.nf.server;
 
-import com.nf.service.ServiceManager;
+import com.nf.service.core.ServiceManager;
 
 public class ServerInit {
 

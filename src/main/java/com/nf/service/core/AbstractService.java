@@ -1,4 +1,4 @@
-package com.nf.service;
+package com.nf.service.core;
 
 import com.nf.entity.Message;
 

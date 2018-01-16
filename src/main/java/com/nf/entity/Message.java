@@ -4,7 +4,7 @@ import com.nf.proto.DataProto;
 import com.nf.server.Connection;
 
 /**
- * 后台处理逻辑的核心实体类
+ *
  */
 public class Message {
 
