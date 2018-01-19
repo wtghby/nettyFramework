@@ -1,6 +1,8 @@
 package com.nf.server;
 
 import com.nf.service.core.ServiceManager;
+import com.nf.util.ProReaderUtil;
+import org.apache.log4j.PropertyConfigurator;
 
 public class ServerInit {
 
@@ -22,7 +24,19 @@ public class ServerInit {
     }
 
     public void init() {
+        initLog4j();
         initDispatcher();
         initService();
+    }
+
+    /**
+     * 初始化log4j
+     */
+    public void initLog4j() {
+        try {
+            PropertyConfigurator.configure(ProReaderUtil.getInstance().getLog4jPro());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
