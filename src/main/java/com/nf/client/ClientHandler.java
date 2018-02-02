@@ -1,7 +1,5 @@
 package com.nf.client;
 
-import com.google.protobuf.ByteString;
-import com.nf.entity.Message;
 import com.nf.proto.DataProto;
 import com.nf.proto.MessageProto;
 import com.nf.util.ProtoUtil;

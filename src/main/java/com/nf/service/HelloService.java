@@ -19,6 +19,8 @@ public class HelloService extends AbstractService {
             try {
                 MessageProto.Book book = MessageProto.Book.parseFrom(data.getData().toByteArray());
                 System.out.println(book.getId() + "---" + book.getPrice() + "---" + book.getName());
+
+                message.write(data);
             } catch (InvalidProtocolBufferException e) {
                 e.printStackTrace();
             }

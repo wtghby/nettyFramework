@@ -27,4 +27,10 @@ public class Message {
     public void setData(DataProto.Data data) {
         this.data = data;
     }
+
+    public void write(DataProto.Data data) {
+        if (connection != null) {
+            connection.write(data);
+        }
+    }
 }
